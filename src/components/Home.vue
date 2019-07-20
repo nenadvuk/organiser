@@ -11,8 +11,12 @@
     </v-layout>
     <v-layout row wrap class="mt-3">
       <v-flex xs12>
-        <v-carousel>
-          <v-carousel-item v-for="meetup in meetups" :src="meetup.imageUrl" :key="meetup.id">
+        <v-carousel style="cursor:pointer">
+          <v-carousel-item v-for="meetup in meetups" 
+          :src="meetup.imageUrl" 
+          :key="meetup.id"
+          @click="onLoadMeetup(meetup.id)">
+          
             <div class="title">{{ meetup.title }}</div>
           </v-carousel-item>
         </v-carousel>
@@ -20,7 +24,7 @@
     </v-layout>
     <v-layout row wrap class="mt-3">
       <v-flex xs12 class="text-xs-center">
-        <p>Join us! https://www.youtube.com/watch?v=Qh9w76olnlQ&list=PL55RiY5tL51qxUbODJG9cgrsVd7ZHbPrt&index=7</p>
+        <p>Join us!</p>
       </v-flex>
     </v-layout>
   </v-container>
@@ -45,6 +49,12 @@ export default {
         }
       ]
     };
+  },
+  methods: {
+    onLoadMeetup (id) {
+      this.$router.push('/meetups/' + id)
+
+    }
   }
 };
 </script>
