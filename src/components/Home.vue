@@ -32,24 +32,12 @@
 
 <script>
 export default {
-  data() {
-    return {
-      meetups: [
-        {
-          imageUrl:
-            "https://upload.wikimedia.org/wikipedia/commons/thumb/0/00/Louvre_2007_02_24_c.jpg/1280px-Louvre_2007_02_24_c.jpg",
-          id: "loremipsum",
-          title: "Meetup in Paris"
-        },
-        {
-          imageUrl:
-            "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6e/London_Thames_Sunset_panorama_-_Feb_2008.jpg/1280px-London_Thames_Sunset_panorama_-_Feb_2008.jpg",
-          id: "fuegdsfciluwbcckvas",
-          title: "Meetup in London"
-        }
-      ]
-    };
+  computed : {
+    meetups () {
+      return this.$store.getters.featuredMeetups
+    }
   },
+
   methods: {
     onLoadMeetup (id) {
       this.$router.push('/meetups/' + id)
