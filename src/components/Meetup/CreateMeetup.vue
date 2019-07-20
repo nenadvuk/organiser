@@ -10,12 +10,7 @@
         <form @submit.prevent="onCreateMeetup">
           <v-layout row>
             <v-flex xs12 sm6 offset-sm3>
-              <v-text-field 
-              name="title" 
-              label="Title" 
-              id="title" 
-              v-model="title">
-              </v-text-field>
+              <v-text-field name="title" label="Title" id="title" v-model="title"></v-text-field>
             </v-flex>
           </v-layout>
           <v-layout row>
@@ -42,7 +37,7 @@
           </v-layout>
           <v-layout row>
             <v-flex xs12 sm6 offset-sm3>
-              <img :src="imageUrl" height="200">
+              <img :src="imageUrl" height="200" />
             </v-flex>
           </v-layout>
           <v-layout row>
@@ -57,11 +52,24 @@
             </v-flex>
           </v-layout>
           <v-layout row>
-              <v-flex xs12 sm6 offset-sm3>
-                <v-btn dark class="red" 
-                :disabled="!formIsValid"
-                type="submit">Create Meetup</v-btn>
-              </v-flex>
+            <v-flex xs12 sm6 offset-sm3>
+              <h2>Choose a Date & ITme</h2>
+            </v-flex>
+          </v-layout>
+          <v-layout row class="mb-3">
+            <v-flex xs12 sm6 offset-sm3>
+              <v-date-picker v-model="date"></v-date-picker>
+            </v-flex>
+          </v-layout>
+          <v-layout row>
+            <v-flex xs12 sm6 offset-sm3>
+              <v-time-picker v-model="time" format="24hr"></v-time-picker>
+            </v-flex>
+          </v-layout>
+          <v-layout row>
+            <v-flex xs12 sm6 offset-sm3>
+              <v-btn dark class="red" :disabled="!formIsValid" type="submit">Create Meetup</v-btn>
+            </v-flex>
           </v-layout>
         </form>
       </v-flex>
@@ -76,32 +84,50 @@ export default {
       title: "",
       location: "",
       imageUrl: "",
-      description: ""
+      description: "",
+      date: new Date().toISOString().substr(0, 10),
+      time: new Date()
+    };
+  },
+  computed: {
+    formIsValid() {
+      return (
+        this.title !== "" &&
+        this.location !== "" &&
+        this.imageUrl !== "" &&
+        this.description !== ""
+      );
+    },
+    submittableDateTime() {
+      const date = new Date(this.date);
+      if (typeof this.time === "string") {
+        const hours = this.time.match(/^(\d+)/)[1]
+        const minutes = this.time.match(/:(\d+)/)[1]
+        date.setHours(hours)
+        date.setMinutes(minutes)
+      } else {
+        date.setHours(this.time.getHours())
+        date.setMinutes(this.time.getMinutes())
+      }
+      return date;
     }
   },
-  computed : {
-      formIsValid () {
-        return this.title !== '' && 
-               this.location !== '' && 
-               this.imageUrl !== '' && 
-               this.description !== ''
-      }
-  },
+
   methods: {
-      onCreateMeetup () {
-          if (!this.formIsValid) {
-              return 
-          }
-          const meetupData = {
-              title: this.title,
-              location: this.location,
-              imageUrl: this.imageUrl,
-              description: this.description,
-              date: new Date()
-          }
-          this.$store.dispatch('createMeetup', meetupData)
-          this.$router.push('/meetups')
+    onCreateMeetup() {
+      if (!this.formIsValid) {
+        return;
       }
+      const meetupData = {
+        title: this.title,
+        location: this.location,
+        imageUrl: this.imageUrl,
+        description: this.description,
+        date: this.submittableDateTime
+      };
+      this.$store.dispatch("createMeetup", meetupData);
+      this.$router.push("/meetups");
+    }
   }
-}
+};
 </script>

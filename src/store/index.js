@@ -12,14 +12,18 @@ export const store = new Vuex.Store({
                     "https://upload.wikimedia.org/wikipedia/commons/thumb/0/00/Louvre_2007_02_24_c.jpg/1280px-Louvre_2007_02_24_c.jpg",
                 id: "loremipsum",
                 title: "Meetup in Paris",
-                date: '2019-01-20'
+                date: new Date(),
+                location: 'Paris',
+                description: "Let's go to Paris "
             },
             {
                 imageUrl:
                     "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6e/London_Thames_Sunset_panorama_-_Feb_2008.jpg/1280px-London_Thames_Sunset_panorama_-_Feb_2008.jpg",
                 id: "fuegdsfciluwbcckvas",
                 title: "Meetup in London",
-                date: '2019-01-22'
+                date: new Date(),
+                location: 'London',
+                description: 'London callin'
             }
         ],
         user : {
